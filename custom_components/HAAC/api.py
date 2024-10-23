@@ -2,15 +2,15 @@ import json
 import logging
 from datetime import datetime
 from urllib.parse import urlencode
+from urllib.parse import quote
 import aiohttp
 from .const import BASE_API_URL
+from .const import API_USER
 from .utils import add_hmac_signature
 
 _LOGGER = logging.getLogger(__name__)
 
-
 class ApsApi:
-    API_USER = "appI"
     
     def __init__(self, session: aiohttp.ClientSession, username: str, password: str):
         # body of the constructor
@@ -20,14 +20,14 @@ class ApsApi:
         self.accessToken = ""
         self.openId = ""
         self.login_result = []
-        return None
 
     async def __apiCall(self, request_without_hmac, url):
         """the actual API caller"""
         request_body = add_hmac_signature(request_without_hmac)
-        encoded = urlencode(request_body)
+        encoded = urlencode(request_body, quote_via=quote)
         _LOGGER.debug("calling %s", url)
-        _LOGGER.debug("payload %s", encoded)
+        _LOGGER.debug("encoded %s", encoded)
+        _LOGGER.debug("body %s", request_body)
         resp = await self.session.post(
             url=url,
             data=f"{encoded}",
@@ -47,6 +47,7 @@ class ApsApi:
             "language": "en_US",
             "apiuser": API_USER,
         }
+        _LOGGER.debug("before apiCall %s", request_body)
         data = await self.__apiCall(
             request_body, f"{BASE_API_URL}/view/registration/user/checkUser"
         )

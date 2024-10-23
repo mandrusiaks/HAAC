@@ -8,6 +8,7 @@ import homeassistant.helpers.config_validation as cv
 import voluptuous as vol
 
 from .api import ApsApi
+from .api import ApiAuthError
 from .const import DOMAIN
 
 _LOGGER = logging.getLogger(__name__)
@@ -31,9 +32,12 @@ async def validate_auth(username: str, password: str, hass: core.HomeAssistant) 
     """
     session = async_get_clientsession(hass)
     try:
+        _LOGGER.debug("CALLING LOGIN %s", username)
         api = ApsApi(session, username, password)
+        _LOGGER.debug("INIT API OBJ %s", api)
         await api.login()
-    except Exception:
+    except Exception as exception:
+        _LOGGER.debug("EXCCEPTION %s", exception)
         raise ValueError
 
 
