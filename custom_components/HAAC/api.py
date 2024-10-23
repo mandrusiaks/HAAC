@@ -10,6 +10,8 @@ _LOGGER = logging.getLogger(__name__)
 
 
 class ApsApi:
+    API_USER = "appI"
+    
     def __init__(self, session: aiohttp.ClientSession, username: str, password: str):
         # body of the constructor
         self.session = session
@@ -43,8 +45,7 @@ class ApsApi:
             "username": self.username,
             "password": self.password,
             "language": "en_US",
-            "type": "0",
-            "apiuser": "appA",
+            "apiuser": API_USER,
         }
         data = await self.__apiCall(
             request_body, f"{BASE_API_URL}/view/registration/user/checkUser"
@@ -68,7 +69,7 @@ class ApsApi:
             "openId": self.openId,
             "language": "en_US",
             "userId": self.login_result["system"]["user_id"],
-            "apiuser": "appA",
+            "apiuser": API_USER,
         }
         data = await self.__apiCall(
             request_body, f"{BASE_API_URL}/view/registration/ecu/getEcuInfoBelowUser"
@@ -83,7 +84,7 @@ class ApsApi:
                 "access_token": self.accessToken,
                 "openId": self.openId,
                 "language": "en_US",
-                "apiuser": "appA",
+                "apiuser": API_USER,
                 "userId": self.login_result["system"]["user_id"],
             }
             result = await self.__apiCall(
@@ -125,7 +126,7 @@ class ApsApi:
             "openId": self.openId,
             "language": "en_US",
             "ecuId": ecudata["ecuId"],
-            "apiuser": "appA",
+            "apiuser": API_USER,
         }
         result = await self.__apiCall(
             request_body, f"{BASE_API_URL}/view/production/ecu/getPowerOnCurrentDay"
