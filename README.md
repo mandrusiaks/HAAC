@@ -11,7 +11,7 @@ __full manual:__
 
 
 __HACS custom repository:__
-- add in HACS this repository: https://github.com/n0liver/HAAC
+- add in HACS this repository: https://github.com/mandrusiaks/HAAC
 - choose as category type "integration"
 - the integration should appear and can be installed as any other HACS integration
 
