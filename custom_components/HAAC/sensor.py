@@ -153,7 +153,7 @@ class ApsPowerMeasurementSensor(CoordinatorEntity, SensorEntity):
 
     @property
     def native_value(self) -> float:
-        return self.coordinator.data[self.field]
+        return round(self.coordinator.data[self.field], 1)
         
     @property
     def icon(self):
@@ -194,7 +194,7 @@ class ApsEnergyMeasurementSensor(CoordinatorEntity, SensorEntity):
 
     @property
     def native_value(self) -> float:
-        return self.coordinator.data[self.field] | round(2)
+        return round(self.coordinator.data[self.field], 1)
         
     @property
     def icon(self):
@@ -234,8 +234,8 @@ class ApsEnergySensor(CoordinatorEntity, SensorEntity):
 
     @property
     def native_value(self) -> float:
-        return self.coordinator.data[self.field] | round(2)
-        
+        return round(self.coordinator.data[self.field], 1)        
+
     @property
     def icon(self):
         return self._icon
