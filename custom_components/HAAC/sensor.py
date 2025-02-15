@@ -54,12 +54,6 @@ async def async_setup_entry(
                 icon="mdi:solar-power",
                 unit=UnitOfPower.WATT
             ),
-            ApsEnergyMeasurementSensor(
-                coordinator,
-                field="current_energy",
-                label="Current Energy",
-                icon="mdi:lightning-bolt",
-            ),
             ApsEnergySensor(
                 coordinator,
                 field="today_total_kwh",
@@ -248,83 +242,3 @@ class ApsEnergySensor(CoordinatorEntity, SensorEntity):
             "model": "ECU",
             "manufacturer": "APSystems",
         }
-
-    
-# class ApsApiClientSensor(CoordinatorEntity, SensorEntity):
-#     """Representation of an APS API client sensor."""
-
-#     def __init__(
-#         self,
-#         coordinator,
-#         field,
-#         label,
-#         dev_class,
-#         icon,
-#         unit,
-#         entity_category,
-#         state_class=None,
-#     ):
-#         """Pass coordinator to CoordinatorEntity."""
-#         super().__init__(coordinator)
-#         self.coordinator = coordinator
-#         self._name = label
-#         self._field = "aps_" + field
-#         self.field = field
-#         self._label = label
-#         if not label:
-#             self._label = field
-#         self._dev_class = dev_class
-#         self._icon = icon
-#         self._entity_category = entity_category
-#         self._state_class = state_class
-
-#         self._unit = unit
-#         self._state = self.coordinator.data[self.field]
-#         self._available = True
-
-#     @property
-#     def unique_id(self):
-#         return self._name
-
-#     @property
-#     def name(self):
-#         return self._name
-
-#     @property
-#     def device_class(self):
-#         return self._dev_class
-
-#     # @property
-#     # def last_reset(self):
-#     #     if self._state_class == SensorStateClass.TOTAL:
-#     #         return get_todays_midnight()
-#     #     return None
-
-#     # @property
-#     # def state(self) -> Optional[str]:
-#     @property
-#     def native_value(self) -> float:
-#         # api returns strings for numbers fsr
-#         return float(self.coordinator.data[self.field])
-        
-#     @property
-#     def icon(self):
-#         return self._icon
-
-#     @property
-#     def unit_of_measurement(self):
-#         return self._unit
-
-#     @property
-#     def state_class(self):
-#         return self._state_class
-
-#     @property
-#     def device_info(self):
-#         return {
-#             "identifiers": {(DOMAIN, "APSystems ECU")}, # hardcode cause laziness
-#         }
-
-#     @property
-#     def entity_category(self):
-#         return self._entity_category
