@@ -132,8 +132,6 @@ class ApsApi:
         result = await self.__apiCall(
             request_body, f"{BASE_API_URL}/view/production/ecu/getPowerOnCurrentDay"
         )
-        _LOGGER.debug("productionForDay result")
-        _LOGGER.debug(result)
         return result.get("data", "no data")
         # "data":{
         #     "duration":123, # ???

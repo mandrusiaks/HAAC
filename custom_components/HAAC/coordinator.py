@@ -53,27 +53,27 @@ class ApsApiClientCoordinator(DataUpdateCoordinator):
                 statistics["tree_years"] = None
                 statistics["year_total_kwh"] = None
             else:
-                statistics["system_capacity"] = summary_data["capacity"]
-                statistics["lifetime_co2_kg"] = summary_data["co2"]
-                statistics["month_total_kwh"] = summary_data["month"]
-                statistics["current_power"] = summary_data["power"]
-                statistics["today_total_kwh"] = summary_data["today"]
-                statistics["lifetime_total_kwh"] = summary_data["total"]
-                statistics["tree_years"] = summary_data["tree"]
-                statistics["year_total_kwh"] = summary_data["year"]
+                statistics["system_capacity"] = float(summary_data["capacity"])
+                statistics["lifetime_co2_kg"] = float(summary_data["co2"])
+                statistics["month_total_kwh"] = float(summary_data["month"])
+                statistics["current_power"] = float(summary_data["power"])
+                statistics["today_total_kwh"] = float(summary_data["today"])
+                statistics["lifetime_total_kwh"] = float(summary_data["total"])
+                statistics["tree_years"] = float(summary_data["tree"])
+                statistics["year_total_kwh"] = float(summary_data["year"])
 
             todays_data = await self.api.get_production_for_day()
             if todays_data == "no data":
-                # statistics["current_power"] = 0
+                statistics["current_power"] = 0
+                statistics["current_energy"] = 0
                 # statistics["today_total_kwh"] = 0
                 statistics["today_co2_kg"] = 0
             else:
-                # statistics["current_power"] = todays_data["power"][-1],
+                statistics["current_power"] = float(todays_data["power"][-1])
+                statistics["current_energy"] = float(todays_data["energy"][-1])
                 # statistics["today_total_kwh"] = todays_data["total"],
-                statistics["today_co2_kg"] = todays_data["co2"]
+                statistics["today_co2_kg"] = float(todays_data["co2"])
 
-            _LOGGER.debug("FINAL STATS")
-            _LOGGER.debug(statistics)
             return statistics
         except ApiAuthError as err:
             # Raising ConfigEntryAuthFailed will cancel future updates
